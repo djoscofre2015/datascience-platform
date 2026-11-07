@@ -1,0 +1,134 @@
+---
+import {
+  languages,
+  getTranslations,
+  type Language,
+} from '../i18n/translations';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+
+const navItems = [
+  { label: t.nav.home, href: `/${lang}/#home` },
+  { label: t.nav.about, href: `/${lang}/#about` },
+  { label: t.nav.skills, href: `/${lang}/#skills` },
+  { label: t.nav.projects, href: `/${lang}/#projects` },
+  { label: t.nav.certifications, href: `/${lang}/#certifications` },
+  { label: t.nav.contact, href: `/${lang}/#contact` },
+];
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href={`/${lang}/`} aria-label={t.nav.home}>
+      <span class="brand-symbol">&lt;/&gt;</span>
+      <span>Data Science</span>
+    </a>
+
+    <nav class="main-nav" aria-label="Main navigation">
+      {navItems.map((item) => (
+        <a href={item.href}>{item.label}</a>
+      ))}
+    </nav>
+
+    <nav class="language-nav" aria-label="Language selection">
+      {Object.entries(languages).map(([code, name]) => (
+        <a
+          href={`/${code}/`}
+          lang={code}
+          hreflang={code}
+          aria-label={name}
+          aria-current={code === lang ? 'page' : undefined}
+          class:list={{ active: code === lang }}
+        >
+          {code.toUpperCase()}
+        </a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(11, 17, 32, 0.95);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    min-height: 76px;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .brand-symbol {
+    color: var(--color-primary);
+    font-weight: 800;
+  }
+
+  .main-nav,
+  .language-nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .main-nav a {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .main-nav a:hover {
+    color: var(--color-primary);
+  }
+
+  .language-nav {
+    gap: 0.4rem;
+  }
+
+  .language-nav a {
+    padding: 0.3rem 0.45rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .language-nav a.active {
+    background: var(--color-surface-alt);
+    color: var(--color-primary);
+  }
+
+  @media (max-width: 1050px) {
+    .header-inner {
+      flex-wrap: wrap;
+      padding-block: 1rem;
+    }
+
+    .main-nav {
+      order: 3;
+      width: 100%;
+      overflow-x: auto;
+      padding-bottom: 0.25rem;
+    }
+
+    .main-nav a {
+      white-space: nowrap;
+    }
+  }
+</style>

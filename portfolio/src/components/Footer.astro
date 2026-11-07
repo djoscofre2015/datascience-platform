@@ -1,0 +1,109 @@
+---
+import {
+  getTranslations,
+  type Language,
+} from '../i18n/translations';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a href={`/${lang}/`} class="brand">
+        <span class="brand-symbol">&lt;/&gt;</span>
+        <span>Data Science</span>
+      </a>
+
+      <p class="footer-description">
+        {t.siteDescription}
+      </p>
+    </div>
+
+    <div class="footer-links">
+      <a href={`/${lang}/#projects`}>{t.nav.projects}</a>
+      <a href={`/${lang}/#contact`}>{t.nav.contact}</a>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <p>
+      © {currentYear} Data Science Portfolio.
+      {t.footer.rights}
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: 4rem;
+    border-top: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    padding-block: 3rem;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.15rem;
+    font-weight: 800;
+  }
+
+  .brand-symbol {
+    color: var(--color-primary);
+  }
+
+  .footer-description {
+    max-width: 420px;
+    margin-top: 1rem;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .footer-links a {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .footer-links a:hover {
+    color: var(--color-primary);
+  }
+
+  .footer-bottom {
+    border-top: 1px solid var(--color-border);
+    padding-block: 1.25rem;
+  }
+
+  .footer-bottom p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 768px) {
+    .footer-inner {
+      flex-direction: column;
+    }
+  }
+</style>
